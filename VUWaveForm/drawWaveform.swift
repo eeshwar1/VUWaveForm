@@ -14,8 +14,8 @@ class DrawWaveform: NSView {
     
     override func draw(_ rect: CGRect) {
         
-        let positiveAmplitude: CGFloat = 140.0
-        let negativeAmplitude: CGFloat = 100.0
+        let waveAmplitude: CGFloat = 160.0
+        let reflectionAmplitude: CGFloat = 100.0
         
         NSColor.gray.setFill()
         rect.fill()
@@ -42,7 +42,7 @@ class DrawWaveform: NSView {
                 aPath.move(to: NSPoint(x:aPath.currentPoint.x + x , y:aPath.currentPoint.y ))
                 
                 //Y is the amplitude
-            aPath.line(to: NSPoint(x: aPath.currentPoint.x, y: aPath.currentPoint.y - (readFile.points[f] * positiveAmplitude) - 1.0))
+            aPath.line(to: NSPoint(x: aPath.currentPoint.x, y: aPath.currentPoint.y + (readFile.points[f] * waveAmplitude) + 1.0))
             
             // aPath.addLine(to: CGPoint(x:aPath.currentPoint.x  , y:aPath.currentPoint.y - (readFile.points[f] * 70) - 1.0))
                 
@@ -70,7 +70,7 @@ class DrawWaveform: NSView {
             
             //Y is the amplitude
             
-            aPath2.line(to: NSPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - ((-1.0 * readFile.points[f]) * negativeAmplitude)))
+            aPath2.line(to: NSPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - (readFile.points[f]) * reflectionAmplitude))
             
             // aPath2.addLine(to: CGPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - ((-1.0 * readFile.points[f]) * 50)))
             
