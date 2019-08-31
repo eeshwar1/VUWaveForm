@@ -11,7 +11,7 @@
 		65220B2E2316355E00B229EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65220B2D2316355E00B229EC /* ViewController.swift */; };
 		65220B302316356000B229EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65220B2F2316356000B229EC /* Assets.xcassets */; };
 		65220B332316356000B229EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65220B312316356000B229EC /* Main.storyboard */; };
-		65220B3C2316376700B229EC /* drawWaveform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65220B3B2316376700B229EC /* drawWaveform.swift */; };
+		65220B3C2316376700B229EC /* WaveFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65220B3B2316376700B229EC /* WaveFormView.swift */; };
 		65220B3F231639BB00B229EC /* piano.caf in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3D231639BB00B229EC /* piano.caf */; };
 		65220B40231639BB00B229EC /* sample2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3E231639BB00B229EC /* sample2.m4a */; };
 		65220B4223163F8B00B229EC /* Sample1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65220B4123163F8B00B229EC /* Sample1.mp3 */; };
@@ -25,7 +25,7 @@
 		65220B322316356000B229EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		65220B342316356000B229EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65220B352316356000B229EC /* VUWaveForm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VUWaveForm.entitlements; sourceTree = "<group>"; };
-		65220B3B2316376700B229EC /* drawWaveform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = drawWaveform.swift; sourceTree = "<group>"; };
+		65220B3B2316376700B229EC /* WaveFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFormView.swift; sourceTree = "<group>"; };
 		65220B3D231639BB00B229EC /* piano.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = piano.caf; sourceTree = "<group>"; };
 		65220B3E231639BB00B229EC /* sample2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample2.m4a; sourceTree = "<group>"; };
 		65220B4123163F8B00B229EC /* Sample1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sample1.mp3; sourceTree = "<group>"; };
@@ -66,7 +66,7 @@
 				65220B4123163F8B00B229EC /* Sample1.mp3 */,
 				65220B3D231639BB00B229EC /* piano.caf */,
 				65220B3E231639BB00B229EC /* sample2.m4a */,
-				65220B3B2316376700B229EC /* drawWaveform.swift */,
+				65220B3B2316376700B229EC /* WaveFormView.swift */,
 				65220B2F2316356000B229EC /* Assets.xcassets */,
 				65220B312316356000B229EC /* Main.storyboard */,
 				65220B342316356000B229EC /* Info.plist */,
@@ -148,7 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65220B3C2316376700B229EC /* drawWaveform.swift in Sources */,
+				65220B3C2316376700B229EC /* WaveFormView.swift in Sources */,
 				65220B2E2316355E00B229EC /* ViewController.swift in Sources */,
 				65220B2C2316355E00B229EC /* AppDelegate.swift in Sources */,
 			);

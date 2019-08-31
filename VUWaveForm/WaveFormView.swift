@@ -9,20 +9,34 @@
 import Foundation
 import AppKit
 import Accelerate
-class DrawWaveform: NSView {
+
+class WaveFormView: NSView {
     
+    var multiplier: Float = 5.0 {
+        didSet {
+            
+          if self.multiplier < 1.0 {
+                self.multiplier = 1.0
+                
+            }
+        }
+    }
+    
+    var graphColor : NSColor = NSColor.orange
+    var reflectionColor : NSColor = NSColor.orange.blended(withFraction: 0.4, of: NSColor.blue) ?? NSColor.white
     
     override func draw(_ rect: CGRect) {
         
+        NSColor.black.setFill()
+        rect.fill()
         let waveAmplitude: CGFloat = 160.0
         let reflectionAmplitude: CGFloat = 100.0
         
-        NSColor.gray.setFill()
-        rect.fill()
         self.convertToPoints()
         
         var f = 0
-        print("draw")
+        
+        print("Drawing the waveform...")
         
         let aPath = NSBezierPath()
         let aPath2 = NSBezierPath()
@@ -37,24 +51,22 @@ class DrawWaveform: NSView {
         print("readFile Points: \(readFile.points)")
         
         for _ in readFile.points{
-                //separation of points
-                var x: CGFloat = 0.5 // was 2.5
-                aPath.move(to: NSPoint(x:aPath.currentPoint.x + x , y:aPath.currentPoint.y ))
+            //separation of points
+            var x: CGFloat = 0.5 // was 2.5
+            aPath.move(to: NSPoint(x:aPath.currentPoint.x + x , y:aPath.currentPoint.y ))
                 
                 //Y is the amplitude
             aPath.line(to: NSPoint(x: aPath.currentPoint.x, y: aPath.currentPoint.y + (readFile.points[f] * waveAmplitude) + 1.0))
             
-            // aPath.addLine(to: CGPoint(x:aPath.currentPoint.x  , y:aPath.currentPoint.y - (readFile.points[f] * 70) - 1.0))
                 
-                aPath.close()
-                
-                //print(aPath.currentPoint.x)
-                x += 1
-                f += 1
+            aPath.close()
+        
+            x += 1
+            f += 1
         }
        
         //If you want to stroke it with a Orange color
-        NSColor.orange.set()
+        self.graphColor.set()
         aPath.stroke()
         //If you want to fill it as well
         aPath.fill()
@@ -72,7 +84,6 @@ class DrawWaveform: NSView {
             
             aPath2.line(to: NSPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - (readFile.points[f]) * reflectionAmplitude))
             
-            // aPath2.addLine(to: CGPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - ((-1.0 * readFile.points[f]) * 50)))
             
             // aPath.close()
             aPath2.close()
@@ -82,55 +93,29 @@ class DrawWaveform: NSView {
             f += 1
         }
         
-        //If you want to stroke it with a Orange color with alpha2
-        NSColor.yellow.set()
+        self.reflectionColor.set()
         aPath2.stroke()
-        // aPath2.stroke(with: CGBlendMode.normal, alpha: 0.5)
-        //   aPath.stroke()
-        
-        //If you want to fill it as well
+
+        //If you want to fill it as wel
         aPath2.fill()
     }
-    
-    
-    
     
     func readArray( array:[Float]){
         readFile.arrayFloatValues = array
     }
     
     func convertToPoints() {
+        
         var processingBuffer = [Float](repeating: 0.0,
                                        count: Int(readFile.arrayFloatValues.count))
         let sampleCount = vDSP_Length(readFile.arrayFloatValues.count)
-        //print(sampleCount)
-        vDSP_vabs(readFile.arrayFloatValues, 1, &processingBuffer, 1, sampleCount);
-        // print(processingBuffer)
         
+        // print(sampleCount)
         
-        
-        
-        // convert do dB
-        //    var zero:Float = 1;
-        //    vDSP_vdbcon(floatArrPtr, 1, &zero, floatArrPtr, 1, sampleCount, 1);
-        //    //print(floatArr)
-        //
-        //    // clip to [noiseFloor, 0]
-        //    var noiseFloor:Float = -50.0
-        //    var ceil:Float = 0.0
-        //    vDSP_vclip(floatArrPtr, 1, &noiseFloor, &ceil,
-        //                   floatArrPtr, 1, sampleCount);
-        //print(floatArr)
-        
-        
-        
-        var multiplier = 1.0
-        print(multiplier)
-        if multiplier < 1{
-            multiplier = 1.0
-            
-        }
-        
+        vDSP_vabs(readFile.arrayFloatValues, 1, &processingBuffer, 1, sampleCount)
+   
+        print("Multiplier: \(self.multiplier)")
+       
         
         let samplesPerPixel = Int(150 * multiplier)
         let filter = [Float](repeating: 1.0 / Float(samplesPerPixel),
@@ -144,16 +129,13 @@ class DrawWaveform: NSView {
                     vDSP_Length(downSampledLength),
                     vDSP_Length(samplesPerPixel))
         
-        // print(" DOWNSAMPLEDDATA: \(downSampledData.count)")
-        
-        //convert [Float] to [CGFloat] array
+        // convert [Float] to [CGFloat] array
         readFile.points = downSampledData.map{CGFloat($0)}
         
         
     }
     
 }
-
 
 struct readFile {
     static var arrayFloatValues:[Float] = []
