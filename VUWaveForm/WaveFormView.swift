@@ -9,30 +9,88 @@
 import Foundation
 import AppKit
 import Accelerate
+import AVFoundation
 
 class WaveFormView: NSView {
     
-    var multiplier: Float = 5.0 {
-        didSet {
+    var audioFileData: AudioFileData?
+    
+    var samplesPerPoint: Int = 1000
+    var waveAmplitude: CGFloat = 160.0
+    var reflectionAmplitude: CGFloat = 100.0
+    
+
+    var graphColor : NSColor = NSColor.orange
+    var reflectionColor : NSColor = NSColor.orange.blended(withFraction: 0.4, of: NSColor.yellow) ?? NSColor.white
+    var backgroundColor: NSColor = NSColor.gray
+    
+    func loadFileFromBundle(audioFileName: String, fileExtension: String) {
+        
+        if let url = Bundle.main.url(forResource: audioFileName, withExtension: fileExtension) {
             
-          if self.multiplier < 1.0 {
-                self.multiplier = 1.0
-                
+            do
+            {
+                let file = try AVAudioFile(forReading: url)
+                loadAudioFileData(file: file)
+
+            }
+            catch {
+                print("Error reading Audio file data '\(audioFileName).\(fileExtension)'")
             }
         }
+        else {
+            print("Error loading file '\(audioFileName).\(fileExtension)'")
+        }
+        
+      
     }
     
-    var graphColor : NSColor = NSColor.orange
-    var reflectionColor : NSColor = NSColor.orange.blended(withFraction: 0.4, of: NSColor.blue) ?? NSColor.white
+    private func loadAudioFileData(file: AVAudioFile) {
+        
+        guard let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: file.fileFormat.channelCount, interleaved: false) else {
+            print(" returning...")
+            return  }
+        
+        print("Number of Channels: \(file.fileFormat.channelCount)")
+        
+        let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: UInt32(file.length))
+        
+        do {
+            try file.read(into: buf!)
+        }
+        catch {
+            print("Unable to read file: \(file)")
+        }
+        
+        self.audioFileData = AudioFileData()
+        
+      
+        audioFileData!.arrayFloatValues = Array(UnsafeBufferPointer(start: buf?.floatChannelData?[0], count:Int(buf!.frameLength)))
+   
+        
+    }
     
     override func draw(_ rect: CGRect) {
         
-        NSColor.black.setFill()
+        guard var fileData = self.audioFileData else
+        {
+            print("No data available to draw")
+            return
+        }
+        self.backgroundColor.setFill()
         rect.fill()
-        let waveAmplitude: CGFloat = 160.0
-        let reflectionAmplitude: CGFloat = 100.0
         
-        self.convertToPoints()
+        calculateSamplesPerPixel()
+        
+        fileData.points = convertToPoints()
+        self.audioFileData = fileData
+       
+        calculateAmplitude(fileData: fileData.points)
+        
+        // print("fileData Points Count: \(fileData.points.count)")
+        
+        // print("fileData Points data: \(fileData.points)")
+        
         
         var f = 0
         
@@ -48,16 +106,18 @@ class WaveFormView: NSView {
         aPath2.move(to: NSPoint(x:0.0 , y:rect.height ))
         
         
-        print("readFile Points: \(readFile.points)")
+      // print("self.audioFileData Points: \(self.audioFileData.points)")
         
-        for _ in readFile.points{
+        
+        for _ in fileData.points {
+            
             //separation of points
-            var x: CGFloat = 0.5 // was 2.5
+            
+            var x: CGFloat = 1.0 // was 2.5
             aPath.move(to: NSPoint(x:aPath.currentPoint.x + x , y:aPath.currentPoint.y ))
                 
                 //Y is the amplitude
-            aPath.line(to: NSPoint(x: aPath.currentPoint.x, y: aPath.currentPoint.y + (readFile.points[f] * waveAmplitude) + 1.0))
-            
+            aPath.line(to: NSPoint(x: aPath.currentPoint.x, y: aPath.currentPoint.y + (fileData.points[f] * waveAmplitude) + 1.0))
                 
             aPath.close()
         
@@ -76,13 +136,13 @@ class WaveFormView: NSView {
         aPath2.move(to: NSPoint(x:0.0 , y:rect.height/2 ))
         
         //Reflection of waveform
-        for _ in readFile.points{
-            var x:CGFloat = 0.5 // 2.5
+        for _ in fileData.points {
+            var x:CGFloat = 1.0 // 2.5
             aPath2.move(to: NSPoint(x:aPath2.currentPoint.x + x , y:aPath2.currentPoint.y ))
             
             //Y is the amplitude
             
-            aPath2.line(to: NSPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - (readFile.points[f]) * reflectionAmplitude))
+            aPath2.line(to: NSPoint(x:aPath2.currentPoint.x  , y:aPath2.currentPoint.y - (fileData.points[f]) * reflectionAmplitude))
             
             
             // aPath.close()
@@ -98,47 +158,90 @@ class WaveFormView: NSView {
 
         //If you want to fill it as wel
         aPath2.fill()
-    }
-    
-    func readArray( array:[Float]){
-        readFile.arrayFloatValues = array
-    }
-    
-    func convertToPoints() {
         
+    }
+    
+    private func calculateSamplesPerPixel()    {
+        
+        guard let fileData = self.audioFileData else
+        {
+            print("No data available to calculate Samples per Pixel")
+            return
+        }
+        
+        let viewWidth = Float(self.frame.width)
+        let inputSamplesCount: Float =  Float(fileData.arrayFloatValues.count)
+        
+        self.samplesPerPoint = Int((inputSamplesCount)/viewWidth)
+        print("Width of View: \(viewWidth)")
+        print("Calculated Samples per Point: \(self.samplesPerPoint)")
+    }
+    func readArray( array:[Float]){
+        audioFileData!.arrayFloatValues = array
+    }
+    
+    func convertToPoints() -> [CGFloat] {
+        
+        guard let fileData = self.audioFileData else
+        {
+            print("No data available to convert")
+            return []
+        }
         var processingBuffer = [Float](repeating: 0.0,
-                                       count: Int(readFile.arrayFloatValues.count))
-        let sampleCount = vDSP_Length(readFile.arrayFloatValues.count)
+                                       count: Int(fileData.arrayFloatValues.count))
+        let sampleCount = vDSP_Length(fileData.arrayFloatValues.count)
         
         // print(sampleCount)
         
-        vDSP_vabs(readFile.arrayFloatValues, 1, &processingBuffer, 1, sampleCount)
-   
-        print("Multiplier: \(self.multiplier)")
+        vDSP_vabs(fileData.arrayFloatValues, 1, &processingBuffer, 1, sampleCount)
        
+        let filter = [Float](repeating: 1.0 / Float(self.samplesPerPoint),
+                             count: Int(self.samplesPerPoint))
+        let downSampledLength = Int(self.audioFileData!.arrayFloatValues.count / self.samplesPerPoint)
         
-        let samplesPerPixel = Int(150 * multiplier)
-        let filter = [Float](repeating: 1.0 / Float(samplesPerPixel),
-                             count: Int(samplesPerPixel))
-        let downSampledLength = Int(readFile.arrayFloatValues.count / samplesPerPixel)
+        print("DownSampled length: \(downSampledLength)")
         var downSampledData = [Float](repeating:0.0,
                                       count:downSampledLength)
         vDSP_desamp(processingBuffer,
-                    vDSP_Stride(samplesPerPixel),
+                    vDSP_Stride(samplesPerPoint),
                     filter, &downSampledData,
                     vDSP_Length(downSampledLength),
-                    vDSP_Length(samplesPerPixel))
+                    vDSP_Length(samplesPerPoint))
         
         // convert [Float] to [CGFloat] array
-        readFile.points = downSampledData.map{CGFloat($0)}
+        let pointsData = downSampledData.map{CGFloat($0)}
         
+        return pointsData
+    }
+    
+    func calculateAmplitude(fileData: [CGFloat])
+    {
         
+        var maxAmplitude: CGFloat = 0.0
+        for point in fileData {
+            
+            maxAmplitude = maxAmplitude < point ? point : maxAmplitude
+            
+        }
+        
+        let bufferedAmplitude = 1.1 * maxAmplitude
+        let viewHeight = self.frame.height
+        
+        print("View Height: \(viewHeight)")
+        print("Buffered Amplitude: \(bufferedAmplitude)")
+        
+        let amplitude = (viewHeight/2)/bufferedAmplitude
+        self.waveAmplitude = amplitude
+        self.reflectionAmplitude = 0.8 * amplitude
+        
+        print("Wave Amplitude: \(self.waveAmplitude)")
     }
     
 }
 
-struct readFile {
-    static var arrayFloatValues:[Float] = []
-    static var points:[CGFloat] = []
+struct AudioFileData {
+    
+    var arrayFloatValues:[Float] = []
+    var points:[CGFloat] = []
     
 }
