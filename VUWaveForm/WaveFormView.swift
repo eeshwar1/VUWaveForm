@@ -45,13 +45,73 @@ class WaveFormView: NSView {
       
     }
     
+    
+    func loadFileFromURLPath(audioFileURL: String) {
+        
+        print("loadFileFromURLPath: \(audioFileURL)")
+        if let url = URL(string: audioFileURL) {
+            do
+            {
+                
+                
+                let file = try AVAudioFile(forReading: url)
+                loadAudioFileData(file: file)
+                
+                OperationQueue.main.addOperation( {
+                    self.needsDisplay = true
+                })
+                
+            }
+            catch {
+                print("Error reading Audio file data '\(audioFileURL)'")
+            }
+        }
+        else {
+            print("Error loading file '\(audioFileURL)'")
+        }
+        
+        
+    }
+    
+    func downloadFileFromURL(url: String)
+    {
+        
+        // let documentsUrl:URL =  (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL?)!
+        //  let destinationFileUrl = documentsUrl.appendingPathComponent("downloadedFile.mp3")
+        
+        print("Creating URL Request...")
+        let request = URLRequest(url: URL(string: url)!, cachePolicy: .reloadIgnoringLocalCacheData)
+        print("Creating URL Session")
+        let urlSession = URLSession.shared
+        print("Create Data Task...")
+        let task = urlSession.downloadTask(with: request) { (tempLocalURL, response, error) in
+            
+            if let tempLocalUrl = tempLocalURL, error == nil {
+                // Success
+                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                    print("Successfully downloaded. Status code: \(statusCode)")
+                    self.loadFileFromURLPath(audioFileURL: tempLocalUrl.absoluteString)
+                    
+                }
+                
+                
+            } else {
+                print("Error took place while downloading a file. Error description: %@", error?.localizedDescription ?? "ERROR");
+            }
+            
+            
+        }
+        
+        task.resume()
+        
+    }
     private func loadAudioFileData(file: AVAudioFile) {
         
         guard let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: file.fileFormat.channelCount, interleaved: false) else {
             print(" returning...")
             return  }
         
-        print("Number of Channels: \(file.fileFormat.channelCount)")
+        // print("Number of Channels: \(file.fileFormat.channelCount)")
         
         let buf = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: UInt32(file.length))
         
@@ -66,19 +126,21 @@ class WaveFormView: NSView {
         
       
         audioFileData!.arrayFloatValues = Array(UnsafeBufferPointer(start: buf?.floatChannelData?[0], count:Int(buf!.frameLength)))
-   
+
         
     }
     
     override func draw(_ rect: CGRect) {
+        
+        self.backgroundColor.setFill()
+        rect.fill()
         
         guard var fileData = self.audioFileData else
         {
             print("No data available to draw")
             return
         }
-        self.backgroundColor.setFill()
-        rect.fill()
+       
         
         calculateSamplesPerPixel()
         
