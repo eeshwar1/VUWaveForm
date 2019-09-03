@@ -733,7 +733,7 @@
                                             <constraint firstAttribute="height" constant="108" id="NTg-5w-Sda"/>
                                         </constraints>
                                     </customView>
-                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="tSX-Gg-IYA" customClass="WaveFormView" customModule="VUWaveForm" customModuleProvider="target">
+                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="tSX-Gg-IYA" customClass="VUWaveFormView" customModule="VUWaveForm" customModuleProvider="target">
                                         <rect key="frame" x="140" y="0.0" width="474" height="108"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="474" id="6aD-xF-k7W"/>
