@@ -1,18 +1,19 @@
 //
-//  VUWaveFormView.swift
-//  VUWaveForm
+//  Draw2dWaveform.swift
+//  Beatmaker
 //
-//  Created by Venky Venkatakrishnan on 8/27/19.
-//  Copyright © 2019 Venky UL. All rights reserved.
+//  Created by Miguel Saldana on 10/17/16.
+//  Copyright © 2016 Miguel Saldana. All rights reserved.
 //
+
 import Foundation
 import AppKit
 import Accelerate
 import AVFoundation
 
-class VUWaveFormView: NSView {
+class WaveFormView2: NSView {
     
-    var audioFileData: AudioFileData?
+    var audioFileData: AudioFileData2?
     
     var samplesPerPoint: Int = 1000
     var waveAmplitude: CGFloat = 160.0
@@ -121,7 +122,7 @@ class VUWaveFormView: NSView {
             print("Unable to read file: \(file)")
         }
         
-        self.audioFileData = AudioFileData()
+        self.audioFileData = AudioFileData2()
         
       
         audioFileData!.arrayFloatValues = Array(UnsafeBufferPointer(start: buf?.floatChannelData?[0], count:Int(buf!.frameLength)))
@@ -300,7 +301,7 @@ class VUWaveFormView: NSView {
     
 }
 
-struct AudioFileData {
+struct AudioFileData2 {
     
     var arrayFloatValues:[Float] = []
     var points:[CGFloat] = []

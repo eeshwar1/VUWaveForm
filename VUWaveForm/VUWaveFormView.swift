@@ -1,16 +1,17 @@
 //
-//  VUWaveFormView.swift
-//  VUWaveForm
+//  Draw2dWaveform.swift
+//  Beatmaker
 //
-//  Created by Venky Venkatakrishnan on 8/27/19.
-//  Copyright © 2019 Venky UL. All rights reserved.
+//  Created by Miguel Saldana on 10/17/16.
+//  Copyright © 2016 Miguel Saldana. All rights reserved.
 //
+
 import Foundation
 import AppKit
 import Accelerate
 import AVFoundation
 
-class VUWaveFormView: NSView {
+class WaveFormView: NSView {
     
     var audioFileData: AudioFileData?
     
