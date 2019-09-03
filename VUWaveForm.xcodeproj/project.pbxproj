@@ -15,8 +15,10 @@
 		65220B3F231639BB00B229EC /* piano.caf in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3D231639BB00B229EC /* piano.caf */; };
 		65220B40231639BB00B229EC /* sample2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3E231639BB00B229EC /* sample2.m4a */; };
 		65220B4223163F8B00B229EC /* Sample1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65220B4123163F8B00B229EC /* Sample1.mp3 */; };
-		656FF5AD231DB49400BFF1F1 /* WaveFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656FF5AC231DB49400BFF1F1 /* WaveFormView.xib */; };
+		656FF5AD231DB49400BFF1F1 /* VUWaveFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */; };
 		65BCAE16231DE6B7003D79B0 /* WaveFormViewBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */; };
+		65BCAE18231DF015003D79B0 /* WaveFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE17231DF015003D79B0 /* WaveFormView.swift */; };
+		65BCAE1C231E0BAE003D79B0 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE1B231E0BAE003D79B0 /* Common.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +33,10 @@
 		65220B3D231639BB00B229EC /* piano.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = piano.caf; sourceTree = "<group>"; };
 		65220B3E231639BB00B229EC /* sample2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample2.m4a; sourceTree = "<group>"; };
 		65220B4123163F8B00B229EC /* Sample1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sample1.mp3; sourceTree = "<group>"; };
-		656FF5AC231DB49400BFF1F1 /* WaveFormView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaveFormView.xib; sourceTree = "<group>"; };
+		656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUWaveFormView.xib; sourceTree = "<group>"; };
 		65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFormViewBackup.swift; sourceTree = "<group>"; };
+		65BCAE17231DF015003D79B0 /* WaveFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFormView.swift; sourceTree = "<group>"; };
+		65BCAE1B231E0BAE003D79B0 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,18 +69,20 @@
 		65220B2A2316355E00B229EC /* VUWaveForm */ = {
 			isa = PBXGroup;
 			children = (
+				65BCAE1B231E0BAE003D79B0 /* Common.swift */,
 				65220B2B2316355E00B229EC /* AppDelegate.swift */,
 				65220B2D2316355E00B229EC /* ViewController.swift */,
 				65220B4123163F8B00B229EC /* Sample1.mp3 */,
 				65220B3D231639BB00B229EC /* piano.caf */,
 				65220B3E231639BB00B229EC /* sample2.m4a */,
 				65220B3B2316376700B229EC /* VUWaveFormView.swift */,
+				65BCAE17231DF015003D79B0 /* WaveFormView.swift */,
 				65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */,
 				65220B2F2316356000B229EC /* Assets.xcassets */,
 				65220B312316356000B229EC /* Main.storyboard */,
 				65220B342316356000B229EC /* Info.plist */,
 				65220B352316356000B229EC /* VUWaveForm.entitlements */,
-				656FF5AC231DB49400BFF1F1 /* WaveFormView.xib */,
+				656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */,
 			);
 			path = VUWaveForm;
 			sourceTree = "<group>";
@@ -147,7 +153,7 @@
 				65220B302316356000B229EC /* Assets.xcassets in Resources */,
 				65220B332316356000B229EC /* Main.storyboard in Resources */,
 				65220B3F231639BB00B229EC /* piano.caf in Resources */,
-				656FF5AD231DB49400BFF1F1 /* WaveFormView.xib in Resources */,
+				656FF5AD231DB49400BFF1F1 /* VUWaveFormView.xib in Resources */,
 				65220B40231639BB00B229EC /* sample2.m4a in Resources */,
 				65220B4223163F8B00B229EC /* Sample1.mp3 in Resources */,
 			);
@@ -164,6 +170,8 @@
 				65220B2E2316355E00B229EC /* ViewController.swift in Sources */,
 				65220B2C2316355E00B229EC /* AppDelegate.swift in Sources */,
 				65BCAE16231DE6B7003D79B0 /* WaveFormViewBackup.swift in Sources */,
+				65BCAE1C231E0BAE003D79B0 /* Common.swift in Sources */,
+				65BCAE18231DF015003D79B0 /* WaveFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

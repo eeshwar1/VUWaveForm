@@ -1,9 +1,9 @@
 //
-//  Draw2dWaveform.swift
-//  Beatmaker
+//  VUWaveFormView.swift
+//  VUWaveForm
 //
-//  Created by Miguel Saldana on 10/17/16.
-//  Copyright © 2016 Miguel Saldana. All rights reserved.
+//  Created by Venky Venkatakrishnan on 8/27/19.
+//  Copyright © 2019 Venky UL. All rights reserved.
 //
 
 import Foundation
@@ -11,7 +11,11 @@ import AppKit
 import Accelerate
 import AVFoundation
 
-class WaveFormView: NSView {
+class VUWaveFormView: NSView {
+    
+    
+    @IBOutlet var contentView: NSView!
+    @IBOutlet weak var statusLabel: NSTextField!
     
     var audioFileData: AudioFileData?
     
@@ -23,6 +27,49 @@ class WaveFormView: NSView {
     var graphColor : NSColor = NSColor.orange
     var reflectionColor : NSColor = NSColor.orange.blended(withFraction: 0.4, of: NSColor.yellow) ?? NSColor.white
     var backgroundColor: NSColor = NSColor.gray
+    
+    required init?(coder decoder: NSCoder) {
+        
+        super.init(coder: decoder)
+        
+        /// Extract our name string from the multi-level class name. We need it to reference the NIB name
+        /// This is just Best Practice. The NIB may be named anything you like but makes sense to be named
+        /// the same as the class that drives it.
+        
+        let myName = type(of: self).className().components(separatedBy: ".").last!
+        
+        /// Get our NIB. This should never fail but it always pays to be careful
+        /// In this case it gets the main Bundle but if this code is in a Framework then it might be another one,
+        /// that's why we use that form of Bundle call
+        
+        if let nib = NSNib.init(nibNamed: myName, bundle: Bundle(for: type(of: self)))
+        {
+            
+            /// You must instantiate a new view from the NIB attached to you as the owner,
+            /// this will replace the one originally built at app start-up
+            nib.instantiate(withOwner: self, topLevelObjects: nil)
+            
+            /// Now create a new array of constraints by copying the old ones.
+            /// We replace ourself as either the first or second item as appropriate in place of topView.
+            /// We grab these now to apply after we add our sub-views
+            
+            var newConstraints: [NSLayoutConstraint] = []
+            
+            for oldConstraint in contentView.constraints {
+                let firstItem = oldConstraint.firstItem === contentView ? self: oldConstraint.firstItem!
+                let secondItem = oldConstraint.secondItem === contentView ? self: oldConstraint.secondItem
+                newConstraints.append(NSLayoutConstraint(item: firstItem, attribute: oldConstraint.firstAttribute, relatedBy: oldConstraint.relation, toItem: secondItem, attribute: oldConstraint.secondAttribute, multiplier: oldConstraint.multiplier, constant: oldConstraint.constant))
+            }
+            for newView in contentView.subviews {
+                self.addSubview(newView)
+            }
+            
+            self.addConstraints(newConstraints)
+        }
+        
+        
+        
+    }
     
     func loadFileFromBundle(audioFileName: String, fileExtension: String) {
         
@@ -49,16 +96,21 @@ class WaveFormView: NSView {
     func loadFileFromURLPath(audioFileURL: String) {
         
         print("loadFileFromURLPath: \(audioFileURL)")
+        
+   
+     
         if let url = URL(string: audioFileURL) {
             do
             {
-                
                 
                 let file = try AVAudioFile(forReading: url)
                 loadAudioFileData(file: file)
                 
                 OperationQueue.main.addOperation( {
+                    
+                    self.statusLabel.isHidden = true
                     self.needsDisplay = true
+                    
                 })
                 
             }
@@ -79,29 +131,21 @@ class WaveFormView: NSView {
         // let documentsUrl:URL =  (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first as URL?)!
         //  let destinationFileUrl = documentsUrl.appendingPathComponent("downloadedFile.mp3")
         
-        print("Creating URL Request...")
-        let request = URLRequest(url: URL(string: url)!, cachePolicy: .reloadIgnoringLocalCacheData)
-        print("Creating URL Session")
-        let urlSession = URLSession.shared
-        print("Create Data Task...")
-        let task = urlSession.downloadTask(with: request) { (tempLocalURL, response, error) in
+        OperationQueue.main.addOperation({
             
-            if let tempLocalUrl = tempLocalURL, error == nil {
-                // Success
-                if let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                    print("Successfully downloaded. Status code: \(statusCode)")
-                    self.loadFileFromURLPath(audioFileURL: tempLocalUrl.absoluteString)
-                    
-                }
-                
-                
-            } else {
-                print("Error took place while downloading a file. Error description: %@", error?.localizedDescription ?? "ERROR");
-            }
+            self.statusLabel.isHidden = false
+            self.statusLabel.stringValue = "Loading audio file..."
             
-            
-        }
+        })
         
+        print("Creating URL Request...")
+        let request = URLRequest(url: URL(string: url)!, cachePolicy: .reloadRevalidatingCacheData)
+        print("Creating URL Session")
+        let urlSession = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil)
+        
+        print("Create Data Task...")
+        let task = urlSession.downloadTask(with: request)
+     
         task.resume()
         
     }
@@ -185,6 +229,7 @@ class WaveFormView: NSView {
         
             x += 1
             f += 1
+
         }
        
         //If you want to stroke it with a Orange color
@@ -261,7 +306,7 @@ class WaveFormView: NSView {
                              count: Int(self.samplesPerPoint))
         let downSampledLength = Int(self.audioFileData!.arrayFloatValues.count / self.samplesPerPoint)
         
-        print("DownSampled length: \(downSampledLength)")
+        print("Down Sampled length: \(downSampledLength)")
         var downSampledData = [Float](repeating:0.0,
                                       count:downSampledLength)
         vDSP_desamp(processingBuffer,
@@ -301,9 +346,49 @@ class WaveFormView: NSView {
     
 }
 
-struct AudioFileData {
+// MARK:- URL Session Download Delegate
+extension VUWaveFormView: URLSessionDownloadDelegate {
     
-    var arrayFloatValues:[Float] = []
-    var points:[CGFloat] = []
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        
+        
+        OperationQueue.main.addOperation({
+            
+            self.statusLabel.isHidden = false
+            self.statusLabel.stringValue = "Processing file..."
+            
+        })
+        self.loadFileFromURLPath(audioFileURL: location.absoluteString)
+        
+    }
     
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        
+      /*  guard
+            (downloadTask.originalRequest?.url) != nil
+            // let download = downloadService.activeDownloads[url]
+            else {
+                return
+                
+        }*/
+        // 2
+        // let downloadProgress = (Float(totalBytesWritten) * 100) / Float(totalBytesExpectedToWrite)
+        
+        let bytesDownloaded =    ByteCountFormatter.string(fromByteCount: totalBytesWritten,                                                           countStyle: .file)
+        // 3
+        let totalSize =
+            ByteCountFormatter.string(fromByteCount: totalBytesExpectedToWrite,
+                                      countStyle: .file)
+        // 4
+        
+        OperationQueue.main.addOperation({
+            
+            self.statusLabel.isHidden = false
+            self.statusLabel.stringValue = "\(bytesDownloaded) of \(totalSize)"
+            // self.needsDisplay = true
+            
+        })
+            
+        
+    }
 }

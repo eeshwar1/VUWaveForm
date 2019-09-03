@@ -1,5 +1,5 @@
 //
-//  VUWaveFormView.swift
+//  WaveFormView.swift
 //  VUWaveForm
 //
 //  Created by Venky Venkatakrishnan on 8/27/19.
@@ -10,7 +10,7 @@ import AppKit
 import Accelerate
 import AVFoundation
 
-class VUWaveFormView: NSView {
+class WaveFormView: NSView {
     
     var audioFileData: AudioFileData?
     
@@ -300,9 +300,4 @@ class VUWaveFormView: NSView {
     
 }
 
-struct AudioFileData {
-    
-    var arrayFloatValues:[Float] = []
-    var points:[CGFloat] = []
-    
-}
+
