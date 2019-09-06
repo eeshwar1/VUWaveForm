@@ -107,7 +107,7 @@ class WaveFormView: NSView {
     private func loadAudioFileData(file: AVAudioFile) {
         
         guard let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: file.fileFormat.sampleRate, channels: file.fileFormat.channelCount, interleaved: false) else {
-            print(" returning...")
+            print("Returning...")
             return  }
         
         // print("Number of Channels: \(file.fileFormat.channelCount)")
@@ -125,6 +125,11 @@ class WaveFormView: NSView {
         
       
         audioFileData!.arrayFloatValues = Array(UnsafeBufferPointer(start: buf?.floatChannelData?[0], count:Int(buf!.frameLength)))
+        
+        print("Float Value count \(audioFileData!.arrayFloatValues.count)")
+        let lengthInTime = Double(audioFileData!.arrayFloatValues.count)/(file.fileFormat.sampleRate)
+            
+            print("Calculated Length in seconds: \(lengthInTime)")
 
         
     }
@@ -234,8 +239,8 @@ class WaveFormView: NSView {
         let inputSamplesCount: Float =  Float(fileData.arrayFloatValues.count)
         
         self.samplesPerPoint = Int((inputSamplesCount)/viewWidth)
-        print("Width of View: \(viewWidth)")
-        print("Calculated Samples per Point: \(self.samplesPerPoint)")
+        // print("Width of View: \(viewWidth)")
+        // print("Calculated Samples per Point: \(self.samplesPerPoint)")
     }
     func readArray( array:[Float]){
         audioFileData!.arrayFloatValues = array
@@ -260,7 +265,7 @@ class WaveFormView: NSView {
                              count: Int(self.samplesPerPoint))
         let downSampledLength = Int(self.audioFileData!.arrayFloatValues.count / self.samplesPerPoint)
         
-        print("DownSampled length: \(downSampledLength)")
+        // print("DownSampled length: \(downSampledLength)")
         var downSampledData = [Float](repeating:0.0,
                                       count:downSampledLength)
         vDSP_desamp(processingBuffer,
@@ -288,14 +293,14 @@ class WaveFormView: NSView {
         let bufferedAmplitude = 1.1 * maxAmplitude
         let viewHeight = self.frame.height
         
-        print("View Height: \(viewHeight)")
-        print("Buffered Amplitude: \(bufferedAmplitude)")
+        // print("View Height: \(viewHeight)")
+        // print("Buffered Amplitude: \(bufferedAmplitude)")
         
         let amplitude = (viewHeight/2)/bufferedAmplitude
         self.waveAmplitude = amplitude
         self.reflectionAmplitude = 0.8 * amplitude
         
-        print("Wave Amplitude: \(self.waveAmplitude)")
+        // print("Wave Amplitude: \(self.waveAmplitude)")
     }
     
 }
