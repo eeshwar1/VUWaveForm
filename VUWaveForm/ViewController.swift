@@ -45,15 +45,15 @@ class ViewController: NSViewController {
 
         }
         
-        if let waveFormView4 = self.waveFormView4 as? VUWaveFormView {
+        /*if let waveFormView4 = self.waveFormView4 as? VUWaveFormView {
             print("Loading file from URL...")
             waveFormView4.downloadFileFromURL(url: "http://feeds.soundcloud.com/stream/673913966-thetalkshow-262-brent-simmons.mp3")
-        }
+        } */
         
      
         
         
-        print("Loading url http://feeds.soundcloud.com/stream/673913966-thetalkshow-262-brent-simmons.mp3")
+        // print("Loading url http://feeds.soundcloud.com/stream/673913966-thetalkshow-262-brent-simmons.mp3")
         // loadURLData(url: "http://feeds.soundcloud.com/stream/673913966-thetalkshow-262-brent-simmons.mp3")
         
         
