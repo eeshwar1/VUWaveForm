@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,14 +11,10 @@
 		65220B2E2316355E00B229EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65220B2D2316355E00B229EC /* ViewController.swift */; };
 		65220B302316356000B229EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65220B2F2316356000B229EC /* Assets.xcassets */; };
 		65220B332316356000B229EC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65220B312316356000B229EC /* Main.storyboard */; };
-		65220B3C2316376700B229EC /* VUWaveFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65220B3B2316376700B229EC /* VUWaveFormView.swift */; };
 		65220B3F231639BB00B229EC /* piano.caf in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3D231639BB00B229EC /* piano.caf */; };
 		65220B40231639BB00B229EC /* sample2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 65220B3E231639BB00B229EC /* sample2.m4a */; };
 		65220B4223163F8B00B229EC /* Sample1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 65220B4123163F8B00B229EC /* Sample1.mp3 */; };
-		656FF5AD231DB49400BFF1F1 /* VUWaveFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */; };
-		65BCAE16231DE6B7003D79B0 /* WaveFormViewBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */; };
 		65BCAE18231DF015003D79B0 /* WaveFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE17231DF015003D79B0 /* WaveFormView.swift */; };
-		65BCAE1C231E0BAE003D79B0 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65BCAE1B231E0BAE003D79B0 /* Common.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,14 +25,10 @@
 		65220B322316356000B229EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		65220B342316356000B229EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65220B352316356000B229EC /* VUWaveForm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VUWaveForm.entitlements; sourceTree = "<group>"; };
-		65220B3B2316376700B229EC /* VUWaveFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VUWaveFormView.swift; sourceTree = "<group>"; };
 		65220B3D231639BB00B229EC /* piano.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = piano.caf; sourceTree = "<group>"; };
 		65220B3E231639BB00B229EC /* sample2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = sample2.m4a; sourceTree = "<group>"; };
 		65220B4123163F8B00B229EC /* Sample1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sample1.mp3; sourceTree = "<group>"; };
-		656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VUWaveFormView.xib; sourceTree = "<group>"; };
-		65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFormViewBackup.swift; sourceTree = "<group>"; };
 		65BCAE17231DF015003D79B0 /* WaveFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveFormView.swift; sourceTree = "<group>"; };
-		65BCAE1B231E0BAE003D79B0 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,20 +61,16 @@
 		65220B2A2316355E00B229EC /* VUWaveForm */ = {
 			isa = PBXGroup;
 			children = (
-				65BCAE1B231E0BAE003D79B0 /* Common.swift */,
 				65220B2B2316355E00B229EC /* AppDelegate.swift */,
 				65220B2D2316355E00B229EC /* ViewController.swift */,
 				65220B4123163F8B00B229EC /* Sample1.mp3 */,
 				65220B3D231639BB00B229EC /* piano.caf */,
 				65220B3E231639BB00B229EC /* sample2.m4a */,
-				65220B3B2316376700B229EC /* VUWaveFormView.swift */,
 				65BCAE17231DF015003D79B0 /* WaveFormView.swift */,
-				65BCAE15231DE6B7003D79B0 /* WaveFormViewBackup.swift */,
 				65220B2F2316356000B229EC /* Assets.xcassets */,
 				65220B312316356000B229EC /* Main.storyboard */,
 				65220B342316356000B229EC /* Info.plist */,
 				65220B352316356000B229EC /* VUWaveForm.entitlements */,
-				656FF5AC231DB49400BFF1F1 /* VUWaveFormView.xib */,
 			);
 			path = VUWaveForm;
 			sourceTree = "<group>";
@@ -113,8 +101,9 @@
 		65220B202316355E00B229EC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 1540;
 				ORGANIZATIONNAME = "Venky UL";
 				TargetAttributes = {
 					65220B272316355E00B229EC = {
@@ -153,7 +142,6 @@
 				65220B302316356000B229EC /* Assets.xcassets in Resources */,
 				65220B332316356000B229EC /* Main.storyboard in Resources */,
 				65220B3F231639BB00B229EC /* piano.caf in Resources */,
-				656FF5AD231DB49400BFF1F1 /* VUWaveFormView.xib in Resources */,
 				65220B40231639BB00B229EC /* sample2.m4a in Resources */,
 				65220B4223163F8B00B229EC /* Sample1.mp3 in Resources */,
 			);
@@ -166,11 +154,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65220B3C2316376700B229EC /* VUWaveFormView.swift in Sources */,
 				65220B2E2316355E00B229EC /* ViewController.swift in Sources */,
 				65220B2C2316355E00B229EC /* AppDelegate.swift in Sources */,
-				65BCAE16231DE6B7003D79B0 /* WaveFormViewBackup.swift in Sources */,
-				65BCAE1C231E0BAE003D79B0 /* Common.swift in Sources */,
 				65BCAE18231DF015003D79B0 /* WaveFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +200,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -223,9 +209,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -240,7 +228,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -276,6 +264,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -284,9 +273,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -295,7 +286,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -311,12 +302,14 @@
 				CODE_SIGN_ENTITLEMENTS = VUWaveForm/VUWaveForm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 74757A785Z;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XZ9VWRV6AW;
 				INFOPLIST_FILE = VUWaveForm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venkyul.VUWaveForm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -330,12 +323,14 @@
 				CODE_SIGN_ENTITLEMENTS = VUWaveForm/VUWaveForm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 74757A785Z;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = XZ9VWRV6AW;
 				INFOPLIST_FILE = VUWaveForm/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venkyul.VUWaveForm;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

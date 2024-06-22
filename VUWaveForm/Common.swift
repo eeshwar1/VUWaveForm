@@ -7,10 +7,3 @@
 //
 
 import Foundation
-
-struct AudioFileData {
-    
-    var arrayFloatValues:[Float] = []
-    var points:[CGFloat] = []
-    
-}
